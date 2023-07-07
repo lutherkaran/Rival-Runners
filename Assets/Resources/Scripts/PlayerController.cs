@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] bool playerAlive = true;
     [SerializeField] bool gameStart = false;
     [SerializeField] bool jumped = false;
+    [SerializeField] bool jumping = false;
     [SerializeField] float moveDistance = .1f;
 
     [SerializeField] LayerMask floorMask;
@@ -41,14 +42,26 @@ public class Player : MonoBehaviour
         if (gameStart && playerAlive)
         {
             Movement();
-            if (Input.GetKeyDown(KeyCode.Space) && !jumped)
+
+            if (Physics.Raycast(transform.GetChild(0).position, Vector3.down, .01f, floorMask))
             {
-                jumped = true;
+                if (Input.GetKeyDown(KeyCode.Space) && !jumping)
+                {
+                    Jump(jumped);
+                }
             }
+            else
+            {
+                jumping = false;
+            }
+           
         }
         IsDied();
     }
+    private void FixedUpdate()
+    {
 
+    }
     private void IsDied()
     {
         Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).transform.forward, Color.red);
@@ -56,6 +69,11 @@ public class Player : MonoBehaviour
         {
             playerAlive = false;
         }
+        if ((Physics.Raycast(transform.GetChild(0).position, Vector3.down, 5f, floorMask)))
+        {
+            //playerAlive = false;
+        }
+
     }
 
     private void Movement()
@@ -70,25 +88,29 @@ public class Player : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * moveDir * moveDistance / 100, 1);
         }
-        if (jumped)
-        {
-            rb.AddForce(this.transform.GetChild(0).position.y * Vector3.up * force * Time.fixedDeltaTime, ForceMode.Impulse);
-
-            if (Physics.Raycast(transform.GetChild(0).position, Vector3.down, 3f, floorMask))
-            {
-                jumped = false;
-            }
-        }
     }
+
+    private void Jump(bool _jumped)
+    {
+        jumped = _jumped;
+        if (!jumped)
+        {
+            rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+            jumping = true;
+        }
+
+    }
+
     public bool GameStart()
     {
         return gameStart;
     }
 
-    public bool Jumped()
+    public bool Jumping()
     {
-        return jumped;
+        return jumping;
     }
+
     public bool PlayerAlive()
     {
         return playerAlive;
