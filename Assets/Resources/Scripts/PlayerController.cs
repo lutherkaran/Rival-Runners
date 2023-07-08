@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
             {
                 jumping = false;
             }
-           
+
         }
         IsDied();
     }
@@ -78,15 +78,15 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        this.transform.position += transform.forward * speed * Time.deltaTime;
+        this.transform.GetChild(0).position += transform.GetChild(0).forward * speed * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * -moveDir * moveDistance / 100, 1);
+            transform.GetChild(0).position = Vector3.Lerp(transform.GetChild(0).position, transform.GetChild(0).position + transform.GetChild(0).right * -moveDir * moveDistance / 100, 1);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * moveDir * moveDistance / 100, 1);
+            transform.GetChild(0).position = Vector3.Lerp(transform.GetChild(0).position, transform.GetChild(0).position + transform.GetChild(0).right * moveDir * moveDistance / 100, 1);
         }
     }
 
