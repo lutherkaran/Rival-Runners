@@ -58,10 +58,7 @@ public class Player : MonoBehaviour
         }
         IsDied();
     }
-    private void FixedUpdate()
-    {
 
-    }
     private void IsDied()
     {
         Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).transform.forward, Color.red);

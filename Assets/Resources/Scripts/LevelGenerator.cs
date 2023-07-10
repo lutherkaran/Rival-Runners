@@ -25,22 +25,38 @@ public class LevelGenerator : MonoBehaviour
             SpawnLevel();
         }
     }
-
-    private void Update()
+    private void Start()
     {
-        if (Player.instance.PlayerAlive())
+        StartCoroutine(PlayerDistanceCheck());
+    }
+    IEnumerator PlayerDistanceCheck()
+    {
+        float refreshRate = .25f;
+        while (Player.instance.PlayerAlive() != false)
         {
-
             if (Vector3.Distance(player.GetChild(0).position, GetEndPositionOfAllLevels()) < playerDistance)
             {
                 ShiftLevels();
             }
-        }
+            yield return new WaitForSeconds(refreshRate);
 
+        }
+    }
+    private void Update()
+    {
+        //if (Player.instance.PlayerAlive())
+        //{
+
+        //    if (Vector3.Distance(player.GetChild(0).position, GetEndPositionOfAllLevels()) < playerDistance)
+        //    {
+        //        ShiftLevels();
+        //    }
+        //}
     }
 
     private void ShiftLevels()
     {
+        Debug.Log("Called");
         if (levelQueue.Count > 0)
         {
             Transform currentLevel = levelQueue.Dequeue();
