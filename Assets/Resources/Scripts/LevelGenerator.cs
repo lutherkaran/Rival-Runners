@@ -7,32 +7,41 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] List<Transform> LevelList;
     [SerializeField] float playerDistance;
-    public Queue<Transform> levelQueue;
 
+    private Queue<Transform> levelQueue;
     private Vector3 LevelEndPosition;
-    Vector3 lastPosition = Vector3.zero;
+    private Vector3 lastPosition = Vector3.zero;
 
     int spawnLevels = 0;
+
+    bool playerAlive = true;
+
+    private void OnEnable()
+    {
+        Player.OnDied += PlayerAlive;
+    }
 
     private void Awake()
     {
         LevelEndPosition = LevelList[0].transform.Find("EndPosition").position;
-
         levelQueue = new Queue<Transform>();
         spawnLevels = LevelList.Count;
+
+    }
+
+    private void Start()
+    {
         for (int i = 0; i < spawnLevels; i++)
         {
             SpawnLevel();
         }
-    }
-    private void Start()
-    {
         StartCoroutine(PlayerDistanceCheck());
     }
+
     IEnumerator PlayerDistanceCheck()
     {
         float refreshRate = .25f;
-        while (Player.instance.PlayerAlive() != false)
+        while (playerAlive != false)
         {
             if (Vector3.Distance(player.GetChild(0).position, GetEndPositionOfAllLevels()) < playerDistance)
             {
@@ -42,21 +51,9 @@ public class LevelGenerator : MonoBehaviour
 
         }
     }
-    private void Update()
-    {
-        //if (Player.instance.PlayerAlive())
-        //{
-
-        //    if (Vector3.Distance(player.GetChild(0).position, GetEndPositionOfAllLevels()) < playerDistance)
-        //    {
-        //        ShiftLevels();
-        //    }
-        //}
-    }
 
     private void ShiftLevels()
     {
-        Debug.Log("Called");
         if (levelQueue.Count > 0)
         {
             Transform currentLevel = levelQueue.Dequeue();
@@ -94,5 +91,14 @@ public class LevelGenerator : MonoBehaviour
         Transform t = g.transform;
         levelQueue.Enqueue(t);
         return t;
+    }
+
+    void PlayerAlive()
+    {
+        playerAlive = false;
+    }
+    private void OnDisable()
+    {
+        Player.OnDied -= PlayerAlive;
     }
 }

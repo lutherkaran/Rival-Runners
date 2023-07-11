@@ -8,6 +8,12 @@ public class PlayerAnimator : MonoBehaviour
     const string GAME_START = "Start";
     const string JUMP = "Jump";
     const string DEATH = "Died";
+    bool playerAlive = true;
+
+    private void OnEnable()
+    {
+        Player.OnDied += PlayerAlive;
+    }
 
     private void Awake()
     {
@@ -20,8 +26,18 @@ public class PlayerAnimator : MonoBehaviour
         {
             anim.SetBool(GAME_START, Player.instance.GameStart());
             anim.SetBool(JUMP, Player.instance.Jumping());
-            if (!Player.instance.PlayerAlive())
+            if (!playerAlive)
                 anim.SetTrigger(DEATH);
         }
+    }
+
+    void PlayerAlive()
+    {
+        playerAlive = false;
+    }
+
+    private void OnDisable()
+    {
+        Player.OnDied -= PlayerAlive;
     }
 }
