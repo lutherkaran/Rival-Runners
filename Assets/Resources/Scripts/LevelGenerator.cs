@@ -43,7 +43,7 @@ public class LevelGenerator : MonoBehaviour
         float refreshRate = .25f;
         while (playerAlive != false)
         {
-            if (Vector3.Distance(player.GetChild(0).position, GetEndPositionOfAllLevels()) < playerDistance)
+            if (Vector3.Distance(player.position, GetEndPositionOfAllLevels()) < playerDistance)
             {
                 ShiftLevels();
             }

@@ -15,19 +15,22 @@ public class Player : MonoBehaviour
     [SerializeField] bool gameStart = false;
     [SerializeField] bool jumped = false;
     [SerializeField] bool jumping = false;
-    [SerializeField] float moveDistance = .1f;
+    [SerializeField] float moveMultiplier = 5f;
+    [SerializeField] float moveAmount = 0;
 
     [SerializeField] LayerMask floorMask;
     [SerializeField] LayerMask deathMask;
     [SerializeField] private float playeHeight;
 
     private int moveDir = 1;
-    private Transform childTransform;
+    //private Transform childTransform;
 
-    [SerializeField] Rigidbody rb;
+    Rigidbody rigidbody;
 
     private void Awake()
     {
+        rigidbody = GetComponent<Rigidbody>();
+
         if (instance != null)
         {
             Destroy(instance);
@@ -37,17 +40,17 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        childTransform = transform.GetChild(0);
+        //childTransform = transform.GetChild(0);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             gameStart = true;
         }
         if (gameStart && playerAlive)
         {
-            Movement(childTransform);
+            Movement(this.transform);
 
-            if (Physics.Raycast(childTransform.position, Vector3.down, .01f, floorMask))
+            if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
             {
                 if (Input.GetKeyDown(KeyCode.Space) && !jumping)
                 {
@@ -60,34 +63,30 @@ public class Player : MonoBehaviour
             }
 
         }
-        IsDied(childTransform);
+        IsDied(this.transform);
     }
 
-    private void IsDied(Transform childTransform)
+    private void IsDied(Transform transform)
     {
-        if (Physics.CapsuleCast(childTransform.position, childTransform.position + Vector3.up * playeHeight, 0.1f, childTransform.forward, 0.3f, deathMask))
+        if (Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playeHeight, 0.1f, transform.forward, 0.3f, deathMask))
         {
             playerAlive = false;
             OnDied?.Invoke();
         }
-        //if ((Physics.Raycast(childTransform.position, Vector3.down, 5f, floorMask)))
-        //{
-        //    //playerAlive = false;
-        //}
-
     }
 
-    private void Movement(Transform childTransform)
+    private void Movement(Transform transform)
     {
-        childTransform.position += childTransform.forward * speed * Time.deltaTime;
+        transform.position += transform.forward * speed * Time.deltaTime;
+        moveAmount = moveMultiplier * speed * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.A))
         {
-            childTransform.position = Vector3.Lerp(childTransform.position, childTransform.position + childTransform.right * -moveDir * moveDistance / 100, 1f);
+            transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * -moveDir * moveAmount, .1f);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            childTransform.position = Vector3.Lerp(childTransform.position, childTransform.position + childTransform.right * moveDir * moveDistance / 100, 1f);
+            transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * moveDir * moveAmount, .1f);
         }
     }
 
@@ -96,7 +95,7 @@ public class Player : MonoBehaviour
         jumped = _jumped;
         if (!jumped)
         {
-            rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+            rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
             jumping = true;
         }
 
