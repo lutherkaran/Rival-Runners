@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] bool gameStart = false;
     [SerializeField] bool jumped = false;
     [SerializeField] bool jumping = false;
-    [SerializeField] float moveMultiplier = 5f;
+    [SerializeField] float moveMultiplier = 1f;
     [SerializeField] float moveAmount = 0;
 
     [SerializeField] LayerMask floorMask;
@@ -50,9 +50,9 @@ public class Player : MonoBehaviour
         {
             Movement(this.transform);
 
-            if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
+            if (Input.GetKeyDown(KeyCode.Space) && !jumping)
             {
-                if (Input.GetKeyDown(KeyCode.Space) && !jumping)
+                if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
                 {
                     Jump(jumped);
                 }
@@ -61,9 +61,9 @@ public class Player : MonoBehaviour
             {
                 jumping = false;
             }
-
+            IsDied(this.transform);
         }
-        IsDied(this.transform);
+
     }
 
     private void IsDied(Transform transform)
@@ -77,16 +77,20 @@ public class Player : MonoBehaviour
 
     private void Movement(Transform transform)
     {
-        transform.position += transform.forward * speed * Time.deltaTime;
+        //transform.position += transform.forward * speed * Time.deltaTime;
+        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         moveAmount = moveMultiplier * speed * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * -moveDir * moveAmount, .1f);
+            transform.position += transform.right * -moveDir * moveAmount;
+            //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+            //transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * -moveDir * moveAmount, .1f);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * moveDir * moveAmount, .1f);
+            transform.position += transform.right * moveDir * moveAmount;
+            //transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * moveDir * moveAmount, .1f);
         }
     }
 

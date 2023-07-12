@@ -8,6 +8,8 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] List<Transform> LevelList;
     [SerializeField] float playerDistance;
 
+    float playerDistanceSquared;
+
     private Queue<Transform> levelQueue;
     private Vector3 LevelEndPosition;
     private Vector3 lastPosition = Vector3.zero;
@@ -43,7 +45,9 @@ public class LevelGenerator : MonoBehaviour
         float refreshRate = .25f;
         while (playerAlive != false)
         {
-            if (Vector3.Distance(player.position, GetEndPositionOfAllLevels()) < playerDistance)
+            //if (Vector3.Distance(player.position, GetEndPositionOfAllLevels()) < playerDistance)
+            playerDistanceSquared = playerDistance * playerDistance;
+            if ((player.position - GetEndPositionOfAllLevels()).sqrMagnitude < playerDistanceSquared)
             {
                 ShiftLevels();
             }
