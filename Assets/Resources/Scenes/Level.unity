@@ -2635,6 +2635,11 @@ MonoBehaviour:
   - {fileID: 3566249915837012216, guid: 8452091dd19cf474e9e44fbab0af6cf7, type: 3}
   - {fileID: 3566249915837012216, guid: 8452091dd19cf474e9e44fbab0af6cf7, type: 3}
   - {fileID: 3566249915837012216, guid: 8452091dd19cf474e9e44fbab0af6cf7, type: 3}
+  - {fileID: 3566249915837012216, guid: 8452091dd19cf474e9e44fbab0af6cf7, type: 3}
+  - {fileID: 3566249915837012216, guid: 8452091dd19cf474e9e44fbab0af6cf7, type: 3}
+  - {fileID: 3566249915837012216, guid: 8452091dd19cf474e9e44fbab0af6cf7, type: 3}
+  - {fileID: 3566249915837012216, guid: 8452091dd19cf474e9e44fbab0af6cf7, type: 3}
+  - {fileID: 3566249915837012216, guid: 8452091dd19cf474e9e44fbab0af6cf7, type: 3}
   playerDistance: 50
 --- !u!1 &1873060008
 GameObject:
