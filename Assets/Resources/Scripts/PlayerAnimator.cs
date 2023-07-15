@@ -24,8 +24,8 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (anim)
         {
-            anim.SetBool(GAME_START, Player.instance.GameStart());
-            anim.SetBool(JUMP, Player.instance.Jumping());
+            anim.SetBool(GAME_START, Player.Instance.GameStart());
+            anim.SetBool(JUMP, Player.Instance.Jumping());
             if (!playerAlive)
                 anim.SetTrigger(DEATH);
         }

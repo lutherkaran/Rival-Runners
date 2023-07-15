@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public static Player instance { get; private set; }
+    public static Player Instance { get; private set; }
     public static event Action OnDied;
 
     [SerializeField] float speed = 1f;
@@ -25,24 +25,24 @@ public class Player : MonoBehaviour
     private int moveDir = 1;
     //private Transform childTransform;
 
-    Rigidbody rigidbody;
+    Rigidbody rb;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
 
-        if (instance != null)
+        if (Instance != null)
         {
-            Destroy(instance);
+            Destroy(Instance);
         }
-        instance = this;
+        Instance = this;
     }
 
     private void Update()
     {
         //childTransform = transform.GetChild(0);
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K)) // touchInput
         {
             gameStart = true;
         }
@@ -77,20 +77,16 @@ public class Player : MonoBehaviour
 
     private void Movement(Transform transform)
     {
-        //transform.position += transform.forward * speed * Time.deltaTime;
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         moveAmount = moveMultiplier * speed * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.A))
         {
             transform.position += transform.right * -moveDir * moveAmount;
-            //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
-            //transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * -moveDir * moveAmount, .1f);
         }
         else if (Input.GetKey(KeyCode.D))
         {
             transform.position += transform.right * moveDir * moveAmount;
-            //transform.position = Vector3.Lerp(transform.position, transform.position + transform.right * moveDir * moveAmount, .1f);
         }
     }
 
@@ -99,7 +95,7 @@ public class Player : MonoBehaviour
         jumped = _jumped;
         if (!jumped)
         {
-            rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * force, ForceMode.Impulse);
             jumping = true;
         }
 
