@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class SettingsMenu : GameMenu
 {
-    enum QualityName { LOW, BALANCED, HIGH };
+    enum QualityName { LOW, BALANCED, HIGH, ULTRA_HIGH };
     QualityName quality;
     [SerializeField] RenderPipelineAsset[] QualityLevels;
     [SerializeField] Text text;
@@ -35,7 +35,7 @@ public class SettingsMenu : GameMenu
         if (id == 1) { quality = quality + 1; }
         else if (id == -1) { quality = quality - 1; }
 
-        Mathf.Clamp((int)quality, 0, 2);
+        Mathf.Clamp((int)quality, 0, 3);
 
         switch (quality)
         {
@@ -43,12 +43,16 @@ public class SettingsMenu : GameMenu
                 text.text = (QualityName.LOW.ToString());
                 break;
 
+            case QualityName.BALANCED:
+                text.text = (QualityName.BALANCED.ToString());
+                break;
+
             case QualityName.HIGH:
                 text.text = (QualityName.HIGH.ToString());
                 break;
 
-            case QualityName.BALANCED:
-                text.text = (QualityName.BALANCED.ToString());
+            case QualityName.ULTRA_HIGH:
+                text.text = (QualityName.ULTRA_HIGH.ToString());
                 break;
 
         }
