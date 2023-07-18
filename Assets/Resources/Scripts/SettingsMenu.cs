@@ -4,17 +4,27 @@ using UnityEngine.UI;
 
 public class SettingsMenu : GameMenu
 {
-    enum QualityName { LOW, BALANCED, HIGH, ULTRA_HIGH };
-    QualityName quality;
+    enum QualityOption { LOW, BALANCED, HIGH, ULTRA_HIGH }
+    QualityOption quality;
+
+    enum FPSOption { FPS_30, FPS_60, FPS_90, FPS_120 }
+    FPSOption FPS;
+
     [SerializeField] RenderPipelineAsset[] QualityLevels;
-    [SerializeField] Text text;
+    [SerializeField] Text qualityText;
+    [SerializeField] Text fpsText;
 
     private void Start()
     {
-        quality = (QualityName)QualitySettings.GetQualityLevel();
-        if (text)
+        if (fpsText)
         {
-            text.text = (quality.ToString());
+            FPS = (FPSOption)Application.targetFrameRate;
+            fpsText.text = FPS.ToString();
+        }
+        quality = (QualityOption)QualitySettings.GetQualityLevel();
+        if (qualityText)
+        {
+            qualityText.text = (quality.ToString());
 
             // ToDo Need to set this as last saved;
             //QualitySettings.SetQualityLevel((int)quality, true);
@@ -28,36 +38,54 @@ public class SettingsMenu : GameMenu
         SetMenuActive(true);
     }
 
+    public void ChangeFPS(int id)
+    {
+        int currentFPS = Application.targetFrameRate;
+
+        currentFPS += id * 30; // Increment or decrement by 30 FPS
+
+        currentFPS = Mathf.Clamp(currentFPS, 30, 120); // Clamp the FPS value between 30 and 120
+
+        Application.targetFrameRate = currentFPS;
+
+        if (fpsText != null)
+        {
+            FPSOption currentOption = (FPSOption)currentFPS;
+            fpsText.text = currentOption.ToString();
+        }
+    }
+
     public void ChangeQuality(int id)
     {
-        quality = (QualityName)QualitySettings.GetQualityLevel();
+        QualityOption quality = (QualityOption)QualitySettings.GetQualityLevel();
 
-        if (id == 1) { quality = quality + 1; }
-        else if (id == -1) { quality = quality - 1; }
-
-        Mathf.Clamp((int)quality, 0, 3);
+        quality += id;
+        quality = (QualityOption)Mathf.Clamp((int)quality, 0, 3);
 
         switch (quality)
         {
-            case QualityName.LOW:
-                text.text = (QualityName.LOW.ToString());
+            case QualityOption.LOW:
+                qualityText.text = QualityOption.LOW.ToString();
                 break;
 
-            case QualityName.BALANCED:
-                text.text = (QualityName.BALANCED.ToString());
+            case QualityOption.BALANCED:
+                qualityText.text = QualityOption.BALANCED.ToString();
                 break;
 
-            case QualityName.HIGH:
-                text.text = (QualityName.HIGH.ToString());
+            case QualityOption.HIGH:
+                qualityText.text = QualityOption.HIGH.ToString();
                 break;
 
-            case QualityName.ULTRA_HIGH:
-                text.text = (QualityName.ULTRA_HIGH.ToString());
+            case QualityOption.ULTRA_HIGH:
+                qualityText.text = QualityOption.ULTRA_HIGH.ToString();
                 break;
-
         }
-        QualitySettings.SetQualityLevel((int)quality, true);
-        QualitySettings.renderPipeline = QualityLevels[(int)quality];
+
+        if (QualityLevels.Length > (int)quality && QualityLevels[(int)quality] != null)
+        {
+            QualitySettings.SetQualityLevel((int)quality, true);
+            QualitySettings.renderPipeline = QualityLevels[(int)quality];
+        }
     }
 
     public void BackPressed()

@@ -1,16 +1,17 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : GameMenu
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("Level");
+        LoadingData.SceneToLoad = "Level";
+        GameMenuManager.Instance.GetLoadingMenu().Open();
     }
 
     public void Multiplayer()
     {
-        SceneManager.LoadScene("Multiplayer");
+        LoadingData.SceneToLoad = "Multiplayer";
+        GameMenuManager.Instance.GetLoadingMenu().Open();
     }
 
     public void QuitPressed()

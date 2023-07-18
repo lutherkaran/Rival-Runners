@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
     Animator anim;
+
     const string GAME_START = "Start";
     const string JUMP = "Jump";
     const string DEATH = "Died";
+
     bool playerAlive = true;
 
     private void OnEnable()

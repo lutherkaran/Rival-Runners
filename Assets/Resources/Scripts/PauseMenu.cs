@@ -54,4 +54,10 @@ public class PauseMenu : GameMenu
     {
         GameMenuManager.Instance.OpenMenu(GameMenuManager.Instance.GetSettingsMenu());
     }
+
+    public void ReturnPressed()
+    {
+        LoadingData.SceneToLoad = "GameStart";
+        GameMenuManager.Instance.GetLoadingMenu().LoadSceneAsync(LoadingData.SceneToLoad);
+    }
 }

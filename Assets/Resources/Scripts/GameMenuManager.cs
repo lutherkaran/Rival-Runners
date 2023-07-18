@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameMenuManager : MonoBehaviour
 {
@@ -13,11 +12,25 @@ public class GameMenuManager : MonoBehaviour
     PauseMenu pauseMenu;
     SettingsMenu settingsMenu;
     MainMenu mainMenu;
+    GameOverMenu gameOverMenu;
+    LoadingMenu loadingMenu;
 
     GameMenu currentMenu;
     GameMenu previousMenu;
 
     public bool paused = false;
+
+    bool playerAlive = true;
+
+    private void OnEnable()
+    {
+        Player.OnDied += IsPlayerDied;
+    }
+
+    private void IsPlayerDied()
+    {
+        playerAlive = false;
+    }
 
     private void Awake()
     {
@@ -49,17 +62,35 @@ public class GameMenuManager : MonoBehaviour
             {
                 mainMenu = (MainMenu)menu;
             }
+            else if (menu is GameOverMenu)
+            {
+                gameOverMenu = (GameOverMenu)menu;
+            }
+            else if (menu is LoadingMenu)
+            {
+                loadingMenu = (LoadingMenu)menu;
+            }
 
             menu.SetMenuActive(false);
         }
     }
+
     public void Start()
     {
-        if (SceneManager.GetActiveScene().name == "GameStart")
+        if (loadingMenu.GetCurrentScene() == "GameStart")
         {
             OpenMenu(mainMenu);
         }
     }
+
+    public void Update()
+    {
+        if (!playerAlive)
+        {
+            gameOverMenu.Open();
+        }
+    }
+
     public void OpenMenu(GameMenu menu)
     {
         if (currentMenu != null)
@@ -95,8 +126,19 @@ public class GameMenuManager : MonoBehaviour
     {
         return mainMenu;
     }
+
     public GameMenu GetPreviousMenu()
     {
         return previousMenu;
+    }
+
+    public LoadingMenu GetLoadingMenu()
+    {
+        return loadingMenu;
+    }
+
+    private void OnDisable()
+    {
+        Player.OnDied -= IsPlayerDied;
     }
 }
