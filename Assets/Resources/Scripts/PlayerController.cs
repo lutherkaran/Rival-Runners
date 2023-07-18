@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         Instance = this;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //childTransform = transform.GetChild(0);
 
@@ -50,7 +50,15 @@ public class Player : MonoBehaviour
         if (gameStart && playerAlive)
         {
             Movement(this.transform);
+            IsDied(this.transform);
+        }
 
+    }
+
+    private void Update()
+    {
+        if (gameStart && playerAlive)
+        {
             if (Input.GetKeyDown(KeyCode.Space) && !jumping)
             {
                 if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
@@ -62,9 +70,7 @@ public class Player : MonoBehaviour
             {
                 jumping = false;
             }
-            IsDied(this.transform);
         }
-
     }
 
     private void IsDied(Transform transform)
