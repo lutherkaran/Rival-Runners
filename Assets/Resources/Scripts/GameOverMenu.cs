@@ -11,13 +11,13 @@ public class GameOverMenu : GameMenu
     {
         if (id == 1)
         {
-            LoadingData.SceneToLoad = GameMenuManager.Instance.GetLoadingMenu().GetCurrentScene();
-            GameMenuManager.Instance.GetLoadingMenu().LoadSceneAsync(LoadingData.SceneToLoad);
+            LoadingData.SceneToLoad = GameMenuManager.Instance.loadingMenu.GetCurrentScene();
+            GameMenuManager.Instance.loadingMenu.LoadSceneAsync(LoadingData.SceneToLoad);
         }
         else
         {
             LoadingData.SceneToLoad = "GameStart";
-            GameMenuManager.Instance.GetLoadingMenu().LoadSceneAsync(LoadingData.SceneToLoad);
+            GameMenuManager.Instance.loadingMenu.LoadSceneAsync(LoadingData.SceneToLoad);
         }
     }
 

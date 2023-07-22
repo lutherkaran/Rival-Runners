@@ -3,72 +3,89 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+
+[RequireComponent(typeof(GameInput))]
+
+public class PlayerController : MonoBehaviour
 {
-    public static Player Instance { get; private set; }
+    public static PlayerController Instance { get; private set; }
     public static event Action OnDied;
 
     [SerializeField] float speed = 1f;
     [SerializeField] float force;
 
-    [SerializeField] bool playerAlive = true;
-    [SerializeField] bool gameStart = false;
-    [SerializeField] bool jumped = false;
-    [SerializeField] bool jumping = false;
     [SerializeField] float moveMultiplier = 1f;
     [SerializeField] float moveAmount = 0;
 
     [SerializeField] LayerMask floorMask;
     [SerializeField] LayerMask deathMask;
-    [SerializeField] private float playeHeight;
 
+    [SerializeField] bool playerAlive = true;
+    [SerializeField] bool jumped = false;
+
+    public bool jumping { get; private set; }
+    public bool playerStarted { get; private set; }
+
+    private float playeHeight;
     private int moveDir = 1;
-    //private Transform childTransform;
 
-    Rigidbody rb;
+    private GameInput gameInput;
+
+    private Rigidbody rb;
 
     private void Awake()
     {
         Application.targetFrameRate = 60;
+
         rb = GetComponent<Rigidbody>();
+        gameInput = GetComponent<GameInput>();
+        playerStarted = false;
 
         if (Instance != null)
         {
             Destroy(Instance);
         }
+
         Instance = this;
     }
 
     private void FixedUpdate()
     {
-        //childTransform = transform.GetChild(0);
-
-        if (Input.GetKeyDown(KeyCode.K)) // touchInput
+        if (playerStarted)
         {
-            gameStart = true;
+            if (GameMenuManager.Instance.timer.isCountDownOver()==0)
+            {
+                Movement(this.transform);
+            }
         }
-        if (gameStart && playerAlive)
-        {
-            Movement(this.transform);
-            IsDied(this.transform);
-        }
-
     }
 
     private void Update()
     {
-        if (gameStart && playerAlive)
+        if (gameInput.Started()) // touchInput // change it to touch anywhere on the screen
         {
-            if (Input.GetKeyDown(KeyCode.Space) && !jumping)
+            playerStarted = true;
+            GameMenuManager.Instance.gameStart = playerStarted;
+        }
+
+        if (playerStarted)
+        {
+            if (playerAlive)
             {
-                if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
+                if (gameInput.jump && !jumping)
                 {
-                    Jump(jumped);
+                    if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
+                    {
+                        Jump(jumped);
+                    }
                 }
-            }
-            else
-            {
-                jumping = false;
+
+                else
+                {
+                    jumping = false;
+                }
+
+                IsDied(this.transform);
             }
         }
     }
@@ -87,11 +104,11 @@ public class Player : MonoBehaviour
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         moveAmount = moveMultiplier * speed * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.A))
+        if (gameInput.move.x == -1)
         {
             transform.position += transform.right * -moveDir * moveAmount;
         }
-        else if (Input.GetKey(KeyCode.D))
+        else if (gameInput.move.x == 1)
         {
             transform.position += transform.right * moveDir * moveAmount;
         }
@@ -105,16 +122,6 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector3.up * force, ForceMode.Impulse);
             jumping = true;
         }
-
     }
 
-    public bool GameStart()
-    {
-        return gameStart;
-    }
-
-    public bool Jumping()
-    {
-        return jumping;
-    }
 }

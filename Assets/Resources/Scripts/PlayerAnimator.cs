@@ -12,7 +12,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        Player.OnDied += PlayerAlive;
+        PlayerController.OnDied += PlayerAlive;
     }
 
     private void Awake()
@@ -22,12 +22,15 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (anim)
+        if (GameMenuManager.Instance.timer.isCountDownOver()==0)
         {
-            anim.SetBool(GAME_START, Player.Instance.GameStart());
-            anim.SetBool(JUMP, Player.Instance.Jumping());
-            if (!playerAlive)
-                anim.SetTrigger(DEATH);
+            if (anim)
+            {
+                anim.SetBool(GAME_START, PlayerController.Instance.playerStarted);
+                anim.SetBool(JUMP, PlayerController.Instance.jumping);
+                if (!playerAlive)
+                    anim.SetTrigger(DEATH);
+            }
         }
     }
 
@@ -38,6 +41,6 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnDisable()
     {
-        Player.OnDied -= PlayerAlive;
+        PlayerController.OnDied -= PlayerAlive;
     }
 }

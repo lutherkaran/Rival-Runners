@@ -3378,6 +3378,7 @@ GameObject:
   - component: {fileID: 8854754501865280487}
   - component: {fileID: 7140968629619467839}
   - component: {fileID: 2572986810873328085}
+  - component: {fileID: 5607141902247404641}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3500,12 +3501,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee74f9043021a72449313f116cfaa1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
-  force: 25
+  speed: 5
+  force: 50
   playerAlive: 1
-  gameStart: 1
+  gameStart: 0
   jumped: 0
-  jumping: 0
   moveMultiplier: 0.5
   moveAmount: 0
   floorMask:
@@ -3515,6 +3515,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   playeHeight: 0.5
+--- !u!114 &5607141902247404641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8522792802760602575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a86c167d568924da5ea14e3c10af03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8791568572169999015
 GameObject:
   m_ObjectHideFlags: 0

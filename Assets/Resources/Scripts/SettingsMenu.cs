@@ -90,15 +90,15 @@ public class SettingsMenu : GameMenu
 
     public void BackPressed()
     {
-        GameMenu currentMenu = GameMenuManager.Instance.GetPreviousMenu();
+        GameMenu currentMenu = GameMenuManager.Instance.previousMenu;
 
-        if (currentMenu == GameMenuManager.Instance.GetPauseMenu())
+        if (currentMenu == GameMenuManager.Instance.pauseMenu)
         {
-            GameMenuManager.Instance.OpenMenu(GameMenuManager.Instance.GetPauseMenu());
+            GameMenuManager.Instance.OpenMenu(GameMenuManager.Instance.pauseMenu);
         }
-        else if (currentMenu == GameMenuManager.Instance.GetMainMenu())
+        else if (currentMenu == GameMenuManager.Instance.mainMenu)
         {
-            GameMenuManager.Instance.OpenMenu(GameMenuManager.Instance.GetMainMenu());
+            GameMenuManager.Instance.OpenMenu(GameMenuManager.Instance.mainMenu);
             Time.timeScale = 1;
         }
     }

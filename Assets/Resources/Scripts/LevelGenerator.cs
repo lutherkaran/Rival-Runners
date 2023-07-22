@@ -20,7 +20,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void OnEnable()
     {
-        Player.OnDied += PlayerAlive;
+        PlayerController.OnDied += PlayerAlive;
     }
 
     private void Awake()
@@ -103,6 +103,6 @@ public class LevelGenerator : MonoBehaviour
     }
     private void OnDisable()
     {
-        Player.OnDied -= PlayerAlive;
+        PlayerController.OnDied -= PlayerAlive;
     }
 }

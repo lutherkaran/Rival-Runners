@@ -16,7 +16,7 @@ public class PauseMenu : GameMenu
 
     public void PausePressed()
     {
-        pauseMenu = GameMenuManager.Instance.GetPauseMenu();
+        pauseMenu = GameMenuManager.Instance.pauseMenu;
         GameMenuManager.Instance.OpenMenu(pauseMenu);
     }
 
@@ -52,12 +52,12 @@ public class PauseMenu : GameMenu
 
     public void SettingsPressed()
     {
-        GameMenuManager.Instance.OpenMenu(GameMenuManager.Instance.GetSettingsMenu());
+        GameMenuManager.Instance.OpenMenu(GameMenuManager.Instance.settingsMenu);
     }
 
     public void ReturnPressed()
     {
         LoadingData.SceneToLoad = "GameStart";
-        GameMenuManager.Instance.GetLoadingMenu().LoadSceneAsync(LoadingData.SceneToLoad);
+        GameMenuManager.Instance.loadingMenu.LoadSceneAsync(LoadingData.SceneToLoad);
     }
 }

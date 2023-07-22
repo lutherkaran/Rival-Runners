@@ -4,19 +4,21 @@ using UnityEngine;
 public class GameMenuManager : MonoBehaviour
 {
     public static GameMenuManager Instance { get; private set; }
+    public bool gameStart = false;
 
     public GameObject pauseButton;
 
     [SerializeField] List<GameMenu> MenuList;
 
-    PauseMenu pauseMenu;
-    SettingsMenu settingsMenu;
-    MainMenu mainMenu;
-    GameOverMenu gameOverMenu;
-    LoadingMenu loadingMenu;
+    public PauseMenu pauseMenu { get; private set; }
+    public SettingsMenu settingsMenu { get; private set; }
+    public MainMenu mainMenu { get; private set; }
+    public GameOverMenu gameOverMenu { get; private set; }
+    public LoadingMenu loadingMenu { get; private set; }
 
-    GameMenu currentMenu;
-    GameMenu previousMenu;
+    public GameMenu currentMenu { get; private set; }
+    public GameMenu previousMenu { get; private set; }
+    public CountDownTimer timer { get; private set; }
 
     public bool paused = false;
 
@@ -24,28 +26,29 @@ public class GameMenuManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Player.OnDied += IsPlayerDied;
+        PlayerController.OnDied += IsPlayerDied;
     }
 
-    private void IsPlayerDied()
+    public void IsPlayerDied()
     {
         playerAlive = false;
     }
 
     private void Awake()
     {
-        InitializeMenus();
+        Initialize();
 
         if (Instance != null)
         {
             Destroy(Instance);
         }
         Instance = this;
-
     }
 
-    private void InitializeMenus()
+    private void Initialize()
     {
+        timer = GetComponentInChildren<CountDownTimer>();
+
         foreach (var menu in MenuList)
         {
             menu.SetMenuActive(true); // Set the menu active
@@ -87,7 +90,7 @@ public class GameMenuManager : MonoBehaviour
     {
         if (!playerAlive)
         {
-            gameOverMenu.Open();
+            //gameOverMenu.Open();
         }
     }
 
@@ -112,33 +115,8 @@ public class GameMenuManager : MonoBehaviour
         }
     }
 
-    public PauseMenu GetPauseMenu()
+    public bool PlayerAlive()
     {
-        return pauseMenu;
-    }
-
-    public SettingsMenu GetSettingsMenu()
-    {
-        return settingsMenu;
-    }
-
-    public MainMenu GetMainMenu()
-    {
-        return mainMenu;
-    }
-
-    public GameMenu GetPreviousMenu()
-    {
-        return previousMenu;
-    }
-
-    public LoadingMenu GetLoadingMenu()
-    {
-        return loadingMenu;
-    }
-
-    private void OnDisable()
-    {
-        Player.OnDied -= IsPlayerDied;
+        return playerAlive;
     }
 }
