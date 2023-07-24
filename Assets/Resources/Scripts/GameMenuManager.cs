@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameMenuManager : MonoBehaviour
 {
     public static GameMenuManager Instance { get; private set; }
-    public bool gameStart = false;
+    public bool playerStarted = false;
 
     public GameObject pauseButton;
 
@@ -42,12 +42,14 @@ public class GameMenuManager : MonoBehaviour
         {
             Destroy(Instance);
         }
+
         Instance = this;
     }
 
     private void Initialize()
     {
         timer = GetComponentInChildren<CountDownTimer>();
+        playerStarted = false;
 
         foreach (var menu in MenuList)
         {
@@ -90,7 +92,7 @@ public class GameMenuManager : MonoBehaviour
     {
         if (!playerAlive)
         {
-            //gameOverMenu.Open();
+            gameOverMenu.Open();
         }
     }
 
@@ -101,6 +103,7 @@ public class GameMenuManager : MonoBehaviour
             previousMenu = currentMenu;
             currentMenu.Close();
         }
+
         currentMenu = menu;
         currentMenu.Open();
     }

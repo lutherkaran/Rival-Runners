@@ -3501,20 +3501,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee74f9043021a72449313f116cfaa1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 10
   force: 50
-  playerAlive: 1
-  gameStart: 0
-  jumped: 0
-  moveMultiplier: 0.5
-  moveAmount: 0
+  moveMultiplier: 300
   floorMask:
     serializedVersion: 2
     m_Bits: 64
   deathMask:
     serializedVersion: 2
     m_Bits: 128
-  playeHeight: 0.5
+  playerAlive: 1
+  jumped: 0
 --- !u!114 &5607141902247404641
 MonoBehaviour:
   m_ObjectHideFlags: 0

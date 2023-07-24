@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,16 +12,16 @@ public class CountDownTimer : MonoBehaviour
     void Start()
     {
         currentTime = startTime;
+        StartCoroutine(StartCountDown());
     }
 
-    void Update()
+    private IEnumerator StartCountDown()
     {
-
-        if (GameMenuManager.Instance.gameStart)
+        while (currentTime > 0f)
         {
-            if (!countdownOver)
+            if (GameMenuManager.Instance.playerStarted && PlayerController.Instance.playerStarted && !countdownOver)
             {
-                currentTime -= 1 * Time.deltaTime;
+                currentTime -= Time.deltaTime;
                 countdownText.text = currentTime.ToString("0");
 
                 if (currentTime <= 0)
@@ -30,11 +31,12 @@ public class CountDownTimer : MonoBehaviour
                     countdownText.gameObject.SetActive(false);
                 }
             }
-        }
 
+            yield return null;
+        }
     }
 
-    public float isCountDownOver()
+    public float GetRemainingTime()
     {
         return currentTime;
     }

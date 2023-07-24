@@ -99,7 +99,6 @@ public class SettingsMenu : GameMenu
         else if (currentMenu == GameMenuManager.Instance.mainMenu)
         {
             GameMenuManager.Instance.OpenMenu(GameMenuManager.Instance.mainMenu);
-            Time.timeScale = 1;
         }
     }
 

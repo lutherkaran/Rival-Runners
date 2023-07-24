@@ -441,6 +441,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 718596313488039266, guid: 56a8ffa8f3a15bf4999b8eebbfc0d81e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352273696780118271, guid: 56a8ffa8f3a15bf4999b8eebbfc0d81e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5765652196714645310, guid: 56a8ffa8f3a15bf4999b8eebbfc0d81e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8448167157034794421, guid: 56a8ffa8f3a15bf4999b8eebbfc0d81e,
         type: 3}
       propertyPath: m_Name
@@ -570,6 +585,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2572986810873328085, guid: 30b17e339e76c214a92b4b5a3df2e58f,
+        type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2572986810873328085, guid: 30b17e339e76c214a92b4b5a3df2e58f,
+        type: 3}
+      propertyPath: moveMultiplier
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 7370843417610677765, guid: 30b17e339e76c214a92b4b5a3df2e58f,
         type: 3}
       propertyPath: m_RootOrder

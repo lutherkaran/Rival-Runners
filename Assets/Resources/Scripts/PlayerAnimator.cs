@@ -22,7 +22,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (GameMenuManager.Instance.timer.isCountDownOver()==0)
+        if (GameMenuManager.Instance.timer.GetRemainingTime()==0)
         {
             if (anim)
             {

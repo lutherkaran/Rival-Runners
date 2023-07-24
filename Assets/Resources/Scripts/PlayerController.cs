@@ -13,24 +13,19 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float speed = 1f;
     [SerializeField] float force;
-
     [SerializeField] float moveMultiplier = 1f;
-    [SerializeField] float moveAmount = 0;
-
     [SerializeField] LayerMask floorMask;
     [SerializeField] LayerMask deathMask;
-
-    [SerializeField] bool playerAlive = true;
-    [SerializeField] bool jumped = false;
 
     public bool jumping { get; private set; }
     public bool playerStarted { get; private set; }
 
     private float playeHeight;
-    private int moveDir = 1;
+    private float moveAmount = 0;
+    private bool playerAlive = true;
+    private bool jumped = false;
 
     private GameInput gameInput;
-
     private Rigidbody rb;
 
     private void Awake()
@@ -49,68 +44,53 @@ public class PlayerController : MonoBehaviour
         Instance = this;
     }
 
-    private void FixedUpdate()
-    {
-        if (playerStarted)
-        {
-            if (GameMenuManager.Instance.timer.isCountDownOver()==0)
-            {
-                Movement(this.transform);
-            }
-        }
-    }
-
     private void Update()
     {
         if (gameInput.Started()) // touchInput // change it to touch anywhere on the screen
         {
-            playerStarted = true;
-            GameMenuManager.Instance.gameStart = playerStarted;
+            GameMenuManager.Instance.playerStarted = playerStarted = true;
         }
 
-        if (playerStarted)
+        if (playerAlive)
         {
-            if (playerAlive)
+            if (gameInput.jump && !jumping)
             {
-                if (gameInput.jump && !jumping)
+                if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
                 {
-                    if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
-                    {
-                        Jump(jumped);
-                    }
+                    Jump(jumped);
                 }
-
-                else
-                {
-                    jumping = false;
-                }
-
-                IsDied(this.transform);
             }
+
+            else
+            {
+                jumping = false;
+            }
+
+            IsDied(this.transform);
         }
+
     }
 
-    private void IsDied(Transform transform)
+    private void FixedUpdate()
     {
-        if (Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playeHeight, 0.1f, transform.forward, 0.3f, deathMask))
+        if (playerAlive && GameMenuManager.Instance.timer.GetRemainingTime() == 0)
         {
-            playerAlive = false;
-            OnDied?.Invoke();
+            Movement(this.transform);
         }
     }
 
     private void Movement(Transform transform)
     {
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
-        moveAmount = moveMultiplier * speed * Time.deltaTime;
+        moveAmount = moveMultiplier * Time.deltaTime;
 
         if (gameInput.move.x == -1)
         {
-            transform.position += transform.right * -moveDir * moveAmount;
+            transform.Translate(-transform.right * moveAmount * Time.deltaTime);
         }
         else if (gameInput.move.x == 1)
         {
-            transform.position += transform.right * moveDir * moveAmount;
+            transform.Translate(transform.right * moveAmount * Time.deltaTime);
         }
     }
 
@@ -121,6 +101,15 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * force, ForceMode.Impulse);
             jumping = true;
+        }
+    }
+
+    private void IsDied(Transform transform)
+    {
+        if (Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playeHeight, 0.1f, transform.forward, 0.3f, deathMask))
+        {
+            playerAlive = false;
+            OnDied?.Invoke();
         }
     }
 

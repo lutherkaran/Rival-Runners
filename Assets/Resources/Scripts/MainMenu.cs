@@ -6,12 +6,14 @@ public class MainMenu : GameMenu
     {
         LoadingData.SceneToLoad = "Level";
         GameMenuManager.Instance.loadingMenu.Open();
+        Time.timeScale = 1;
     }
 
     public void Multiplayer()
     {
         LoadingData.SceneToLoad = "Multiplayer";
         GameMenuManager.Instance.loadingMenu.Open();
+        Time.timeScale = 1;
     }
 
     public void QuitPressed()

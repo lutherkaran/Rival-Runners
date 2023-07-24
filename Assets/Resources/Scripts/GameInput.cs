@@ -16,12 +16,6 @@ public class GameInput : MonoBehaviour
     private void OnEnable()
     {
         inputActions.Enable();
-        inputActions.Player.Jump.performed += Jump_performed;
-    }
-
-    private void Jump_performed(InputAction.CallbackContext obj)
-    {
-        // Could Play Jump Sound;
     }
 
     private void Update()
@@ -55,7 +49,6 @@ public class GameInput : MonoBehaviour
 
     private void OnDisable()
     {
-        inputActions.Player.Jump.performed -= Jump_performed;
         inputActions.Disable();
     }
 }
