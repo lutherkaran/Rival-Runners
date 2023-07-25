@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    [SerializeField] Transform player;
+    Transform playerTarget;
     [SerializeField] List<Transform> LevelList;
     [SerializeField] float playerDistance;
 
@@ -28,7 +28,7 @@ public class LevelGenerator : MonoBehaviour
         LevelEndPosition = LevelList[0].transform.Find("EndPosition").position;
         levelQueue = new Queue<Transform>();
         spawnLevels = LevelList.Count;
-
+        playerTarget = PlayerController.Instance.transform;
     }
 
     private void Start()
@@ -47,7 +47,7 @@ public class LevelGenerator : MonoBehaviour
         {
             //if (Vector3.Distance(player.position, GetEndPositionOfAllLevels()) < playerDistance)
             playerDistanceSquared = playerDistance * playerDistance;
-            if ((player.position - GetEndPositionOfAllLevels()).sqrMagnitude < playerDistanceSquared)
+            if ((playerTarget.position - GetEndPositionOfAllLevels()).sqrMagnitude < playerDistanceSquared)
             {
                 ShiftLevels();
             }
