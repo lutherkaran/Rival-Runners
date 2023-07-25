@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CameraFollow : NetworkBehaviour
 {
-    Vector3 offset = new Vector3(0, 0.7f, -2f);
-    Vector3 offset2 = new Vector3(-0.09f, 3.53f, -1.99f);
+    Vector3 offset = new Vector3(0, 0.46f, -2.3f);
+    //Vector3 offset2 = new Vector3(-0.09f, 3.53f, -1.99f);
     [SerializeField] Transform playerTarget;
 
     public override void OnNetworkSpawn()
@@ -17,7 +17,7 @@ public class CameraFollow : NetworkBehaviour
     {
         if (playerTarget)
         {
-            this.transform.position = playerTarget.position + offset2;
+            this.transform.position = playerTarget.position + offset;
         }
     }
 }

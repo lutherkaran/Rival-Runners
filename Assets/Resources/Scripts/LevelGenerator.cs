@@ -24,19 +24,14 @@ public class LevelGenerator : NetworkBehaviour
         PlayerController.OnDied += PlayerAlive;
     }
 
-    public override void OnNetworkSpawn()
+    public void Start()
     {
-        base.OnNetworkSpawn();
         Initialize();
     }
 
     private void Initialize()
     {
-        playerTarget = PlayerController.Instance.transform;
-    }
-
-    public void Start()
-    {
+        playerTarget = PlayerController.Instance.gameObject.transform;
         LevelEndPosition = LevelList[0].transform.Find("EndPosition").position;
         levelQueue = new Queue<Transform>();
         spawnLevels = LevelList.Count;
@@ -53,7 +48,6 @@ public class LevelGenerator : NetworkBehaviour
         float refreshRate = .25f;
         while (playerAlive != false)
         {
-            //if (Vector3.Distance(player.position, GetEndPositionOfAllLevels()) < playerDistance)
             playerDistanceSquared = playerDistance * playerDistance;
             if ((playerTarget.position - GetEndPositionOfAllLevels()).sqrMagnitude < playerDistanceSquared)
             {
@@ -92,8 +86,8 @@ public class LevelGenerator : NetworkBehaviour
 
     private void SpawnLevel(Transform i)
     {
-        //Transform k = LevelList[Random.Range(0, LevelList.Count)].transform;
-        Transform t = SpawnLevel(i, LevelEndPosition);
+        Transform k = LevelList[Random.Range(0, LevelList.Count)].transform;
+        Transform t = SpawnLevel(k, LevelEndPosition);
         LevelEndPosition = t.Find("EndPosition").position;
     }
 
@@ -114,24 +108,4 @@ public class LevelGenerator : NetworkBehaviour
     {
         PlayerController.OnDied -= PlayerAlive;
     }
-
-
-    //public async Task PlayerDistanceCheck()
-    //{
-    //    float refreshRate = .25f;
-    //    while (Time.time < refreshRate)
-    //    {
-    //        //if (Vector3.Distance(player.position, GetEndPositionOfAllLevels()) < playerDistance)
-    //        if (playerAlive)
-    //        {
-    //            playerDistanceSquared = playerDistance * playerDistance;
-    //            if ((playerTarget.position - GetEndPositionOfAllLevels()).sqrMagnitude < playerDistanceSquared)
-    //            {
-    //                ShiftLevels();
-    //            }
-    //        }
-    //        await Task.Yield();
-
-    //    }
-    //}
 }
