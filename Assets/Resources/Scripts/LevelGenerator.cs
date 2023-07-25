@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator : NetworkBehaviour
 {
     Transform playerTarget;
     [SerializeField] List<Transform> LevelList;
@@ -23,21 +24,28 @@ public class LevelGenerator : MonoBehaviour
         PlayerController.OnDied += PlayerAlive;
     }
 
-    private void Awake()
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        playerTarget = PlayerController.Instance.transform;
+    }
+
+    public void Start()
     {
         LevelEndPosition = LevelList[0].transform.Find("EndPosition").position;
         levelQueue = new Queue<Transform>();
         spawnLevels = LevelList.Count;
-        playerTarget = PlayerController.Instance.transform;
-    }
-
-    private void Start()
-    {
-        for (int i = 0; i < spawnLevels; i++)
+        for (int i = 1; i < spawnLevels; i++)
         {
-            SpawnLevel();
+            SpawnLevel(LevelList[i]);
         }
-        StartCoroutine(PlayerDistanceCheck());
+        if (playerTarget)
+            StartCoroutine(PlayerDistanceCheck());
     }
 
     IEnumerator PlayerDistanceCheck()
@@ -82,10 +90,10 @@ public class LevelGenerator : MonoBehaviour
         return lastPosition;
     }
 
-    private void SpawnLevel()
+    private void SpawnLevel(Transform i)
     {
-        Transform k = LevelList[Random.Range(0, LevelList.Count)].transform;
-        Transform t = SpawnLevel(k, LevelEndPosition);
+        //Transform k = LevelList[Random.Range(0, LevelList.Count)].transform;
+        Transform t = SpawnLevel(i, LevelEndPosition);
         LevelEndPosition = t.Find("EndPosition").position;
     }
 
@@ -101,8 +109,29 @@ public class LevelGenerator : MonoBehaviour
     {
         playerAlive = false;
     }
+
     private void OnDisable()
     {
         PlayerController.OnDied -= PlayerAlive;
     }
+
+
+    //public async Task PlayerDistanceCheck()
+    //{
+    //    float refreshRate = .25f;
+    //    while (Time.time < refreshRate)
+    //    {
+    //        //if (Vector3.Distance(player.position, GetEndPositionOfAllLevels()) < playerDistance)
+    //        if (playerAlive)
+    //        {
+    //            playerDistanceSquared = playerDistance * playerDistance;
+    //            if ((playerTarget.position - GetEndPositionOfAllLevels()).sqrMagnitude < playerDistanceSquared)
+    //            {
+    //                ShiftLevels();
+    //            }
+    //        }
+    //        await Task.Yield();
+
+    //    }
+    //}
 }

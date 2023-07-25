@@ -3124,7 +3124,7 @@ GameObject:
   - component: {fileID: 978732449139792885}
   - component: {fileID: 2893773179878419252}
   m_Layer: 0
-  m_Name: Player
+  m_Name: SinglePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3138,7 +3138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7583691322101600788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.414825, y: 0.05000019, z: -1.0593464}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3247,7 +3247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   force: 50
-  moveMultiplier: 300
+  moveMultiplier: 200
   floorMask:
     serializedVersion: 2
     m_Bits: 64
