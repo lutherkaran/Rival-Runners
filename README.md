@@ -1,10 +1,9 @@
 Rival Runner (Under Development)
 
 Rival Runner is an exciting infinite running game that is currently under development. Dodge obstacles, collect power-ups, and prove yourself as the ultimate runner. Please note that the game is still a work in progress, and certain features may be subject to change.
-Gameplay
+Gameplay: In Rival Runner, you control a character who runs endlessly through a challenging environment. The objective is to cover as much distance as possible while avoiding obstacles and competing against rival runners. The game features smooth controls and responsive gameplay for an immersive running experience.
 
-In Rival Runner, you control a character who runs endlessly through a challenging environment. The objective is to cover as much distance as possible while avoiding obstacles and competing against rival runners. The game features smooth controls and responsive gameplay for an immersive running experience.
-Features
+Features: 
 
     Infinite Running: The game offers an endless running experience, providing an ever-changing environment for continuous gameplay.
     Obstacle Avoidance: Dodge various obstacles, such as hurdles, pits, and moving objects, to maintain your speed and avoid setbacks.
@@ -24,3 +23,8 @@ Controls
 Contact
 
 If you have any questions, feedback, or inquiries, feel free to contact me at karanluther95@gmail.com.
+![RivalRunners](https://github.com/lutherkaran/Rival-Runners/assets/35023765/0d2bc4f4-f59a-4a72-9100-7b84a43b04ee)
+
+
+https://github.com/lutherkaran/Rival-Runners/assets/35023765/89821b46-adc4-4c41-b30c-34afb4cef86f
+
