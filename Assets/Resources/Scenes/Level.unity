@@ -446,10 +446,20 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1009534934351847847, guid: 56a8ffa8f3a15bf4999b8eebbfc0d81e,
+        type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1352273696780118271, guid: 56a8ffa8f3a15bf4999b8eebbfc0d81e,
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4928002816105954218, guid: 56a8ffa8f3a15bf4999b8eebbfc0d81e,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5765652196714645310, guid: 56a8ffa8f3a15bf4999b8eebbfc0d81e,
         type: 3}
