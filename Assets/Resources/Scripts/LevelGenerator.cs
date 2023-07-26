@@ -24,8 +24,9 @@ public class LevelGenerator : NetworkBehaviour
         PlayerController.OnDied += PlayerAlive;
     }
 
-    public void Start()
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         Initialize();
     }
 
