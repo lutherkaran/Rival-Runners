@@ -10,7 +10,8 @@ public class CameraFollow : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        playerTarget = PlayerController.Instance.transform;
+        //playerTarget = PlayerController.Instance.transform;
+        playerTarget = this.GetComponentInParent<PlayerController>().transform;
     }
 
     private void LateUpdate()
