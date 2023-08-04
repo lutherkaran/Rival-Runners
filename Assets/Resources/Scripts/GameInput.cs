@@ -1,8 +1,7 @@
-using System;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class GameInput : MonoBehaviour
+public class GameInput : NetworkBehaviour
 {
     PlayerInputAction inputActions;
 

@@ -1,8 +1,9 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CountDownTimer : MonoBehaviour
+public class CountDownTimer : NetworkBehaviour
 {
     float currentTime = 0f;
     float startTime = 3f;
@@ -17,6 +18,7 @@ public class CountDownTimer : MonoBehaviour
 
     private IEnumerator StartCountDown()
     {
+        if (!IsHost && !IsOwner) yield return null;
         while (currentTime > 0f)
         {
             if (GameMenuManager.Instance.playerStarted && PlayerController.Instance.playerStarted && !countdownOver)

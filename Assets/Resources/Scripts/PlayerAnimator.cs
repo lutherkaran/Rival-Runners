@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerAnimator : MonoBehaviour
+public class PlayerAnimator : NetworkBehaviour
 {
     Animator anim;
 
@@ -22,7 +23,8 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (GameMenuManager.Instance.timer.GetRemainingTime()==0)
+        if (!IsHost && !IsOwner) return;
+        if (GameMenuManager.Instance.timer.GetRemainingTime() == 0)
         {
             if (anim)
             {

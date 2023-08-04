@@ -16,6 +16,7 @@ public class CameraFollow : NetworkBehaviour
 
     private void LateUpdate()
     {
+        if (!IsHost && !IsOwner) return;
         if (playerTarget)
         {
             this.transform.position = playerTarget.position + offset2;

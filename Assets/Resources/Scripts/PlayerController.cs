@@ -51,32 +51,30 @@ public class PlayerController : NetworkBehaviour
         {
             GameMenuManager.Instance.playerStarted = playerStarted = true;
         }
-
-        if (playerAlive)
+        if (playerAlive && playerStarted)
         {
             if (gameInput.jump && !jumping)
             {
                 if (Physics.Raycast(this.transform.position, Vector3.down, .01f, floorMask))
                 {
                     Jump(jumped);
+                    //Debug.Log($"IsOwner: {IsOwner}");
                 }
-            }
 
+            }
             else
             {
                 jumping = false;
             }
-
-            IsDied(this.transform);
         }
-
     }
 
     private void FixedUpdate()
     {
-        if (playerAlive && GameMenuManager.Instance.timer.GetRemainingTime() == 0)
+        if (playerAlive && playerStarted && GameMenuManager.Instance.timer.GetRemainingTime() == 0)
         {
             Movement(this.transform);
+            IsDied(this.transform);
         }
     }
 

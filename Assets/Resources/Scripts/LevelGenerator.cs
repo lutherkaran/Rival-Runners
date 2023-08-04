@@ -32,6 +32,7 @@ public class LevelGenerator : NetworkBehaviour
 
     private void Initialize()
     {
+        if (!IsOwner) return;
         playerTarget = PlayerController.Instance.gameObject.transform;
         LevelEndPosition = LevelList[0].transform.Find("EndPosition").position;
         levelQueue = new Queue<Transform>();
@@ -46,6 +47,7 @@ public class LevelGenerator : NetworkBehaviour
 
     IEnumerator PlayerDistanceCheck()
     {
+
         float refreshRate = .25f;
         while (playerAlive != false)
         {
